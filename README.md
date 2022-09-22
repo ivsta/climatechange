@@ -84,10 +84,10 @@ Germany, Romania, Italy, Poland and Spain
 General Conclusions:
 --------------------
 
-Most of the reported policies and measures are related to a union policy and air pollution policy, 
+*Most of the reported policies and measures are related to a union policy and air pollution policy, 
 affecting generally the Transport and Energy sectors, and implemented by national governments
 
-The most common type of policy instruments are Economic and Regulatory
+*The most common type of policy instruments are Economic and Regulatory
 
 
 

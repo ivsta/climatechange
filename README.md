@@ -4,9 +4,6 @@ Data: ‘EEA database on greenhouse gas policies and measures in Europe’;
 European Environment Agency, last updated 2021 
 
 
-
-Link:http://pam.apps.eea.europa.eu/?source=%7B%22track_total_hits%22%3Atrue%2C%22query%22%3A%7B%22match_all%22%3A%7B%7D%7D%2C%22display_type%22%3A%22tabular%22%2C%22sort%22%3A%5B%7B%22Country%22%3A%7B%22order%22%3A%22asc%22%7D%7D%2C%7B%22ID_of_policy_or_measure%22%3A%7B%22order%22%3A%22asc%22%7D%7D%5D%2C%22highlight%22%3A%7B%22fields%22%3A%7B%22*%22%3A%7B%7D%7D%7D%7D
-
 RQ: 
 What makes some climate change mitigation policies and measures (PaMs) more successful than others in GHG (greenhouse gases) emission reductions in Europe?
 

@@ -1,0 +1,129 @@
+
+#importing packages
+
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+import warnings
+warnings.filterwarnings('ignore')
+
+#importing customized pre-defined EDA functions
+import sys
+sys.path.insert(0, 'C:/      ')
+
+from Functions_EDA import *
+
+
+path_to_file = 'C:    .csv'
+data = pd.read_csv(path_to_file)
+
+#making a copy of dataset
+raw_data=data.copy()
+
+#checking data 
+data.shape
+
+data.info()
+
+
+data.duplicated().value_counts()
+
+data.columns
+
+#creating a map of all policies 
+number_policies = data.groupby('Country')['Unnamed: 0'].count().reset_index()
+number_policies['number of policies'] = number_policies['Unnamed: 0']
+
+px.choropleth(number_policies, locations="Country",
+             locationmode="country names",
+             color='number of policies') 
+
+#creating a subset with the following condition as I only want to examine data for 2025
+
+df = data[data['Total GHG emissions reductions in 2025 (kt CO2eq/y)']>= 0]
+df.shape
+
+#checking for null values and preparing data for visualizations/ dropping noninformative values
+percentage_nullValues(df)
+fill_na(df)
+
+df['Does_the_PaM_relate_to_Air_Pollution_policy?'].value_counts()
+df = df[df['Does_the_PaM_relate_to_Air_Pollution_policy?'] != 'No information']
+
+df['Implementation period start'] = df['Implementation period start'].astype(int) 
+
+
+#year most policies were implemented - bar chart
+ax = df['Implementation period start'].value_counts().plot(kind='bar',
+                                    figsize=(14,8),
+                                    title="Start of implementation period")
+ax.set_xlabel("Year of implementation")
+ax.set_ylabel("Frequency")
+plt.show()
+
+# status of implementation pie chart 
+status_impl = df['Status of implementation'].value_counts().reset_index()
+
+status_impl.rename({'Status of implementation': 'counts'}, axis=1,inplace=True)
+status_impl.rename({'index': 'status of implementation of PaMs'}, axis=1,inplace=True)
+
+status_impl_plt = px.pie(status_impl, values='counts',names='status of implementation of PaMs',title='Implementation status') 
+status_impl_plt.show() 
+
+# Single or group policy pie chart 
+uni_rel = df['Single policy or measure, or group of measures'].value_counts().reset_index()
+uni_rel
+uni_plt = px.pie(uni_rel, values='Single policy or measure, or group of measures',names='index',title='Single or Group PaM') 
+uni_plt.show() 
+
+#Geo coverage pie chart 
+uni_rel = df['Geographical_coverage'].value_counts().reset_index()
+uni_rel
+uni_plt = px.pie(uni_rel, values='Geographical_coverage',names='index',title='Geo coverage') 
+uni_plt.show() 
+
+#relatedness to a union policy pie chart
+uni_rel = df['Is the policy or measure related to a Union policy?'].value_counts().reset_index()
+uni_rel
+uni_plt = px.pie(uni_rel, values='Is the policy or measure related to a Union policy?',names='index',title='Is PaM union related') 
+uni_plt.show() 
+
+#relatedness to an air pollution policy pie chart 
+air_rel = df['Does_the_PaM_relate_to_Air_Pollution_policy?'].value_counts().reset_index()
+air_rel
+air_plt = px.pie(air_rel, values='Does_the_PaM_relate_to_Air_Pollution_policy?',names='index',title='Is PaM air pollution policy related') 
+air_plt.show() 
+
+#entities responsible for implementing policy bar chart
+entities_resp = df['Entities responsible for implementing the policy (type)'].value_counts().reset_index()
+entities_resp
+
+entities_resp.rename({'index': 'entities'}, axis=1,inplace=True)
+entities_resp.rename({'Entities responsible for implementing the policy (type)': 'count'}, axis=1,inplace=True)
+  
+entities_resp= entities_resp.head(7)
+
+fig = px.bar(entities_resp, x='entities', y ='count')          
+
+fig.show()
+
+#Sectors affected bar chart 
+sector = df['Sector(s) affected'].value_counts().head(10).reset_index()
+
+sector.rename({'Sector(s) affected': 'counts'}, axis=1,inplace=True)
+sector.rename({'index': 'sectors affected by the PaM'}, axis=1,inplace=True)
+
+fig = px.bar(sector, x='sectors affected by the PaM', y ='counts')          
+fig.show()
+
+#Type of policy instrument bar chart 
+sector = df['Type of policy instrument'].value_counts().head(10).reset_index()
+
+sector.rename({'Type of policy instrument': 'counts'}, axis=1,inplace=True)
+sector.rename({'index': 'Type of policy instrument'}, axis=1,inplace=True)
+
+fig = px.bar(sector, x='Type of policy instrument', y ='counts')          
+fig.show()
+
+
